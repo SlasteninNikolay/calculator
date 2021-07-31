@@ -6,10 +6,6 @@ let money = 100000,
     period = 12,
     budgetDay = money / 30;
 
-alert("Hello, World!");
-
-console.log("Hello, World!");
-
 console.log(typeof money);
 console.log(typeof income);
 console.log(typeof deposit);

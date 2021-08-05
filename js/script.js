@@ -33,7 +33,7 @@ console.log(showTypeOf(deposit));
 let expenses = [];
 
 // Функция запроса и подсчета обязательных расходов за месяц
-const getExpensesMonth = function (exp1, exp2) {
+const getExpensesMonth = function () {
     let sum = 0;
     for (let i = 0; i < 2; i++) {
         expenses[i] = prompt("Введите обязательную статью расходов?");
@@ -54,15 +54,12 @@ console.log("Расходы за месяц " + expensesAmount);
 console.log(addExpenses.toLocaleLowerCase().split(", "));
 
 // Функция подсчета срока достижения цели
-let result;
 const getTargetMonth = function (target, accum) {
-    result = Math.ceil(target / accum);
-    console.log(arguments);
-    console.log(result);
-    if (result <= 0 || result === Infinity) {
-        console.log("Цель не будет достигнута");
-    } else {
+    let result = Math.ceil(target / accum);
+    if (result > 0) {
         console.log("Цель будет достигнута");
+    } else {
+        console.log("Цель не будет достигнута");
     }
     return result;
 };

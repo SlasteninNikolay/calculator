@@ -1,17 +1,11 @@
 "use strict";
+
+let money;
+
 // Функция проверки ввода числа
 let isNumber = function (n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 };
-
-let money;
-let income = "депозит";
-let addExpenses = prompt(
-    "Перечислите возможные расходы за рассчитываемый период через запятую"
-);
-let deposit = confirm("Есть ли у вас депозит в банке?");
-let mission = 800000;
-let period = 12;
 
 // Функция запроса ежемесячного дохода
 let start = function () {
@@ -22,13 +16,30 @@ let start = function () {
 
 start();
 
+let appData = {
+    income: {},
+    addIncome: [],
+    ecpenses: {},
+    addExpenses: [],
+    deposit: false,
+    mission: 800000,
+    period: 12,
+    asking: function () {
+        let addExpenses = prompt(
+            "Перечислите возможные расходы за рассчитываемый период через запятую"
+        );
+        appData.addExpenses = addExpenses.toLowerCase().split(",");
+        appData.deposit = confirm("Есть ли у вас депозит в банке?");
+    },
+};
+
 // Функция определения типа данных
 let showTypeOf = function (data) {
     return data, typeof data;
 };
 console.log(showTypeOf(money));
-console.log(showTypeOf(income));
-console.log(showTypeOf(deposit));
+console.log(showTypeOf(appData.income));
+console.log(showTypeOf(appData.deposit));
 
 let expenses = [];
 
@@ -48,10 +59,7 @@ const getExpensesMonth = function () {
 };
 
 let expensesAmount = getExpensesMonth();
-console.log("Расходы за месяц " + expensesAmount);
-
-// Вывод возможных расходов в виде массива
-console.log(addExpenses.toLocaleLowerCase().split(", "));
+console.log("Расходы за месяц: " + expensesAmount);
 
 // Функция подсчета срока достижения цели
 const getTargetMonth = function (target, accum) {
@@ -75,9 +83,8 @@ let budgetDay = accumulatedMonth / 30;
 console.log("Бюджет на день составит: ", Math.floor(budgetDay));
 
 // Вызов функция подсчета срока достижения цели и вывод в консоль
-let targetMonth = getTargetMonth(mission, accumulatedMonth);
+let targetMonth = getTargetMonth(appData.mission, accumulatedMonth);
 console.log(targetMonth);
-
 // Функция вычисления уровня дохода
 let getStatusIncome = function () {
     if (budgetDay >= 1200) {

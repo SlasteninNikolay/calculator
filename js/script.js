@@ -1,8 +1,6 @@
 "use strict";
 
 let money;
-let expenses = [];
-let expensesAmount;
 
 // Функция проверки ввода числа
 let isNumber = function (n) {
@@ -52,22 +50,18 @@ let appData = {
             sum += +appData.expenses[key];
         }
         appData.expensesMonth = sum;
-        console.log("appData.expensesMonth: ", appData.expensesMonth);
     },
     getBudget: function () {
         appData.budgetMonth = appData.budget - appData.expensesMonth;
-        console.log("appData.budgetMonth: ", appData.budgetMonth);
         appData.budgetDay = Math.floor(appData.budgetMonth / 30);
-        console.log("Бюджет на день составит: ", appData.budgetDay);
     },
     getTargetMonth: function () {
         let result = Math.ceil(appData.mission / appData.budgetMonth);
         if (result > 0) {
-            console.log("Цель будет достигнута");
+            return "Цель будет достигнута за " + result;
         } else {
-            console.log("Цель не будет достигнута");
+            return "Цель не будет достигнута";
         }
-        return result;
     },
     getStatusIncome: function () {
         if (appData.budgetDay >= 1200) {
@@ -84,13 +78,17 @@ let appData = {
 
 appData.asking();
 appData.getExpensesMonth();
+appData.getBudget();
+appData.getTargetMonth();
+appData.getStatusIncome();
 
-// expensesAmount = appData.getExpensesMonth();
-// console.log("Расходы за месяц: " + expensesAmount);
-
-let accumulatedMonth = appData.getBudget();
-
-let targetMonth = appData.getTargetMonth(appData.mission, accumulatedMonth);
-console.log(targetMonth);
-
+console.log("Расходы за месяц: ", appData.expensesMonth);
+console.log(appData.getTargetMonth());
 console.log(appData.getStatusIncome());
+
+for (const key in appData) {
+    console.log(
+        "Наша программа включает в себя данные: ",
+        key + " " + appData[key]
+    );
+}

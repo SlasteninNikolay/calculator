@@ -6,13 +6,10 @@ let money;
 let isNumber = function (n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 };
+
 // Функция проверки ввода строки
 let isString = function (str) {
-    if (typeof str === "string" && isNaN(str)) {
-        return true;
-    } else {
-        return false;
-    }
+    return isNaN(str) && !isFinite(str) && str !== null && str !== "";
 };
 
 // Функция запроса ежемесячного дохода
@@ -41,11 +38,10 @@ let appData = {
     asking: function () {
         if (confirm("Есть ли у вас дополнительный источник дохода?")) {
             let itemIncome;
-            while (!isString(itemIncome)) {
-                itemIncome = prompt(
-                    "Какой у вас дополнительный источник доходов?"
-                );
-            }
+            do {
+                itemIncome = prompt("Какой?");
+            } while (!isString(itemIncome));
+
             let cashIncome;
             while (!isNumber(cashIncome)) {
                 cashIncome = prompt(
@@ -69,9 +65,9 @@ let appData = {
         let keys = [];
         let values = [];
         for (let i = 0; i <= 1; i++) {
-            while (!isString(keys[i])) {
+            do {
                 keys[i] = prompt("Введите обязательную статью расходов?");
-            }
+            } while (!isString(keys[i]));
 
             while (!isNumber(values[i])) {
                 values[i] = prompt("Во сколько это обойдется?");

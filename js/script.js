@@ -48,18 +48,61 @@ let appData = {
     percentDeposit: 0,
     moneyDeposit: 0,
     reset: function () {
+        // разблокировываем инпуты
         inputDataAll.forEach(function (item) {
             item.disabled = false;
-        }, this); // разблокировываем инпуты
-        cancelButton.style.display = "none"; // скрываем кнопку "Расчитать"
-        countButton.style.display = "block"; //выводим кнопку "Сбросить"
-        //обнуляем инпуты
-        let inputAll = document.querySelectorAll("input");
+        }, this);
+
+        // скрываем кнопку "Расчитать"
+        cancelButton.style.display = "none";
+
+        //выводим кнопку "Сбросить"
+        countButton.style.display = "block";
+
+        //обнуляем инпуты кроме period
+        let inputAll = document.querySelectorAll("input:not(.period-select)");
         inputAll.forEach(function (item) {
             if (isNaN) {
                 item.value = "";
             } else {
                 item.value = 0;
+            }
+        });
+        // Обнуляем period
+        periodSelect.value = 1;
+        periodAmount.innerHTML = periodSelect.value;
+
+        // Обнуляем данные
+        this.budget = 0;
+        this.budgetDay = 0;
+        this.budgetMonth = 0;
+        this.expensesMonth = 0;
+        this.income = {};
+        this.incomeMonth = 0;
+        this.addIncome = [];
+        this.expenses = {};
+        this.addExpenses = [];
+        this.deposit = false;
+        this.percentDeposit = 0;
+        this.moneyDeposit = 0;
+        // Убираем дополнительные поля ввода в расходах
+        expensesItems.forEach(function (item) {
+            if (expensesItems.length > 1) {
+                item.remove();
+                expensesItems = document.querySelectorAll(".expenses-items");
+            } else {
+                addExpensesButton.style.display = "block";
+                return;
+            }
+        });
+        // Убираем дополнительные поля ввода в доходах
+        incomeItems.forEach(function (item) {
+            if (incomeItems.length > 1) {
+                item.remove();
+                incomeItems = document.querySelectorAll(".income-items");
+            } else {
+                addIncomeButton.style.display = "block";
+                return;
             }
         });
     },

@@ -87,7 +87,7 @@ let appData = {
         this.moneyDeposit = 0;
         // Убираем дополнительные поля ввода в расходах
         expensesItems = document.getElementsByClassName("expenses-items");
-        [...expensesItems].forEach(function (item) {
+        Array.from(expensesItems).forEach(function (item) {
             if (expensesItems.length > 1) {
                 item.remove();
             } else {
@@ -97,7 +97,7 @@ let appData = {
         });
         // Убираем дополнительные поля ввода в доходах
         incomeItems = document.getElementsByClassName("income-items");
-        [...incomeItems].forEach(function (item) {
+        Array.from(incomeItems).forEach(function (item) {
             if (incomeItems.length > 1) {
                 item.remove();
             } else {

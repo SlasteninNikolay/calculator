@@ -87,9 +87,9 @@ let appData = {
         this.moneyDeposit = 0;
         // Убираем дополнительные поля ввода в расходах
         expensesItems.forEach(function (item) {
+            expensesItems = document.querySelectorAll(".expenses-items");
             if (expensesItems.length > 1) {
                 item.remove();
-                expensesItems = document.querySelectorAll(".expenses-items");
             } else {
                 addExpensesButton.style.display = "block";
                 return;
@@ -97,9 +97,9 @@ let appData = {
         });
         // Убираем дополнительные поля ввода в доходах
         incomeItems.forEach(function (item) {
+            incomeItems = document.querySelectorAll(".income-items");
             if (incomeItems.length > 1) {
                 item.remove();
-                incomeItems = document.querySelectorAll(".income-items");
             } else {
                 addIncomeButton.style.display = "block";
                 return;

@@ -66,9 +66,9 @@ class AppData {
     }
     reset() {
         // разблокировываем инпуты
-        inputDataAll.forEach(function (item) {
+        inputDataAll.forEach((item) => {
             item.disabled = false;
-        }, this);
+        });
 
         // скрываем кнопку "Расчитать"
         cancelButton.style.display = "none";
@@ -185,8 +185,8 @@ class AppData {
         additionalIncomeValue.value = this.addIncome.join(", ");
         targetMonthValue.value = Math.ceil(this.getTargetMonth());
         incomePeriodValue.value = this.calcSaveMoney();
-        periodSelect.addEventListener("input", function () {
-            incomePeriodValue.value = +periodSelect.value * _this.budgetMonth;
+        periodSelect.addEventListener("input", () => {
+            incomePeriodValue.value = +periodSelect.value * this.budgetMonth;
         });
     }
 

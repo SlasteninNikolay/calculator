@@ -177,7 +177,6 @@ class AppData {
     }
 
     showResult() {
-        const _this = this;
         budgetMonthValue.value = this.budgetMonth;
         budgetDayValue.value = this.budgetDay;
         expensesMonthValue.value = this.expensesMonth;

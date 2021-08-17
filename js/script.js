@@ -270,18 +270,17 @@ class AppData {
         }
     }
     eventListeners() {
-        const _this = this;
-        countButton.addEventListener("mouseover", _this.countButtonBlock);
-        salaryAmount.addEventListener("input", _this.countButtonUnblock);
+        countButton.addEventListener("mouseover", this.countButtonBlock);
+        salaryAmount.addEventListener("input", this.countButtonUnblock);
         countButton.addEventListener("click", () => {
             this.start();
         });
         cancelButton.addEventListener("click", () => {
             this.reset();
         });
-        addExpensesButton.addEventListener("click", _this.addExpensesBlock);
-        addIncomeButton.addEventListener("click", _this.addIncomeBlock);
-        periodSelect.addEventListener("input", _this.setPeriod);
+        addExpensesButton.addEventListener("click", this.addExpensesBlock);
+        addIncomeButton.addEventListener("click", this.addIncomeBlock);
+        periodSelect.addEventListener("input", this.setPeriod);
     }
 }
 

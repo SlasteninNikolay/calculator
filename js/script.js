@@ -42,6 +42,7 @@ class AppData {
         this.percentDeposit = 0;
         this.moneyDeposit = 0;
     }
+
     // Функция проверки ввода числа
     static isNumber(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
@@ -71,9 +72,9 @@ class AppData {
     }
     reset() {
         // разблокировываем инпуты
-        inputDataAll.forEach(function (item) {
+        inputDataAll.forEach((item) => {
             item.disabled = false;
-        }, this);
+        });
 
         // скрываем кнопку "Расчитать"
         cancelButton.style.display = "none";
@@ -95,18 +96,29 @@ class AppData {
         periodAmount.innerHTML = periodSelect.value;
 
         // Обнуляем данные
-        this.budget = 0;
-        this.budgetDay = 0;
-        this.budgetMonth = 0;
-        this.expensesMonth = 0;
-        this.income = {};
-        this.incomeMonth = 0;
-        this.addIncome = [];
-        this.expenses = {};
-        this.addExpenses = [];
-        this.deposit = false;
-        this.percentDeposit = 0;
-        this.moneyDeposit = 0;
+        let newAppData = JSON.parse(JSON.stringify(this));
+        for (const key in newAppData) {
+            switch (typeof newAppData[key]) {
+                case "string":
+                    newAppData[key] = "";
+                    break;
+                case "number":
+                    newAppData[key] = 0;
+                    break;
+                case "boolean":
+                    newAppData[key] = false;
+                    break;
+                case "object":
+                    if (Array.isArray(newAppData[key])) {
+                        newAppData[key] = [];
+                    } else {
+                        newAppData[key] = {};
+                    }
+                    break;
+            }
+        }
+        Object.assign(this, newAppData);
+        console.log(this);
         // Убираем дополнительные поля ввода в расходах
         expensesItems = document.getElementsByClassName("expenses-items");
         Array.from(expensesItems).forEach((item) => {
@@ -182,7 +194,6 @@ class AppData {
     }
 
     showResult() {
-        const _this = this;
         budgetMonthValue.value = this.budgetMonth;
         budgetDayValue.value = this.budgetDay;
         expensesMonthValue.value = this.expensesMonth;
@@ -190,8 +201,8 @@ class AppData {
         additionalIncomeValue.value = this.addIncome.join(", ");
         targetMonthValue.value = Math.ceil(this.getTargetMonth());
         incomePeriodValue.value = this.calcSaveMoney();
-        periodSelect.addEventListener("input", function () {
-            incomePeriodValue.value = +periodSelect.value * _this.budgetMonth;
+        periodSelect.addEventListener("input", () => {
+            incomePeriodValue.value = +periodSelect.value * this.budgetMonth;
         });
     }
 

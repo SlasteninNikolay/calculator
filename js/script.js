@@ -39,6 +39,7 @@ class AppData {
         this.percentDeposit = 0;
         this.moneyDeposit = 0;
     }
+
     // Функция проверки ввода числа
     static isNumber(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
@@ -90,18 +91,29 @@ class AppData {
         periodAmount.innerHTML = periodSelect.value;
 
         // Обнуляем данные
-        this.budget = 0;
-        this.budgetDay = 0;
-        this.budgetMonth = 0;
-        this.expensesMonth = 0;
-        this.income = {};
-        this.incomeMonth = 0;
-        this.addIncome = [];
-        this.expenses = {};
-        this.addExpenses = [];
-        this.deposit = false;
-        this.percentDeposit = 0;
-        this.moneyDeposit = 0;
+        let newAppData = JSON.parse(JSON.stringify(this));
+        for (const key in newAppData) {
+            switch (typeof newAppData[key]) {
+                case "string":
+                    newAppData[key] = "";
+                    break;
+                case "number":
+                    newAppData[key] = 0;
+                    break;
+                case "boolean":
+                    newAppData[key] = false;
+                    break;
+                case "object":
+                    if (Array.isArray(newAppData[key])) {
+                        newAppData[key] = [];
+                    } else {
+                        newAppData[key] = {};
+                    }
+                    break;
+            }
+        }
+        Object.assign(this, newAppData);
+        console.log(this);
         // Убираем дополнительные поля ввода в расходах
         expensesItems = document.getElementsByClassName("expenses-items");
         Array.from(expensesItems).forEach((item) => {

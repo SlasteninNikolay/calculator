@@ -55,6 +55,7 @@ class AppData {
         inputDataAll.forEach((item) => {
             item.disabled = true;
         }); // блокируем инпуты
+        depositBank.style.pointerEvents = "none"; // блокируем селект
         countButton.style.display = "none"; // скрываем кнопку "Расчитать"
         cancelButton.style.display = "block"; // выводим кнопку "Сбросить"
         this.budget = +salaryAmount.value;
@@ -65,6 +66,7 @@ class AppData {
         this.getAddExpenses();
         this.getAddIncome();
         this.getInfoDepsit();
+
         this.getBudget();
         this.getTargetMonth();
 
@@ -75,6 +77,8 @@ class AppData {
         inputDataAll.forEach((item) => {
             item.disabled = false;
         });
+
+        depositBank.style.pointerEvents = ""; // разблокировываем селект
 
         // скрываем кнопку "Расчитать"
         cancelButton.style.display = "none";
@@ -91,34 +95,14 @@ class AppData {
                 item.value = 0;
             }
         });
+
         // Обнуляем period
         periodSelect.value = 1;
         periodAmount.innerHTML = periodSelect.value;
 
         // Обнуляем данные
-        let newAppData = JSON.parse(JSON.stringify(this));
-        for (const key in newAppData) {
-            switch (typeof newAppData[key]) {
-                case "string":
-                    newAppData[key] = "";
-                    break;
-                case "number":
-                    newAppData[key] = 0;
-                    break;
-                case "boolean":
-                    newAppData[key] = false;
-                    break;
-                case "object":
-                    if (Array.isArray(newAppData[key])) {
-                        newAppData[key] = [];
-                    } else {
-                        newAppData[key] = {};
-                    }
-                    break;
-            }
-        }
-        Object.assign(this, newAppData);
-        console.log(this);
+        Object.assign(this, new this.constructor());
+
         // Убираем дополнительные поля ввода в расходах
         expensesItems = document.getElementsByClassName("expenses-items");
         Array.from(expensesItems).forEach((item) => {
@@ -129,6 +113,7 @@ class AppData {
                 return;
             }
         });
+
         // Убираем дополнительные поля ввода в доходах
         incomeItems = document.getElementsByClassName("income-items");
         Array.from(incomeItems).forEach((item) => {
@@ -257,7 +242,7 @@ class AppData {
 
     getInfoDepsit() {
         if (this.deposit) {
-            if (this.Number(depositAmount.value)) {
+            if (depositPercent.value > 100 || depositPercent.value <= 0) {
                 console.log("no");
             } else {
                 this.percentDeposit = depositPercent.value;
@@ -324,6 +309,5 @@ class AppData {
 }
 
 const appData = new AppData();
-console.log("appData: ", appData);
 
 appData.eventListeners();

@@ -91,29 +91,9 @@ class AppData {
         periodAmount.innerHTML = periodSelect.value;
 
         // Обнуляем данные
-        let newAppData = JSON.parse(JSON.stringify(this));
-        for (const key in newAppData) {
-            switch (typeof newAppData[key]) {
-                case "string":
-                    newAppData[key] = "";
-                    break;
-                case "number":
-                    newAppData[key] = 0;
-                    break;
-                case "boolean":
-                    newAppData[key] = false;
-                    break;
-                case "object":
-                    if (Array.isArray(newAppData[key])) {
-                        newAppData[key] = [];
-                    } else {
-                        newAppData[key] = {};
-                    }
-                    break;
-            }
-        }
-        Object.assign(this, newAppData);
+        Object.assign(this, new this.constructor());
         console.log(this);
+
         // Убираем дополнительные поля ввода в расходах
         expensesItems = document.getElementsByClassName("expenses-items");
         Array.from(expensesItems).forEach((item) => {
@@ -124,6 +104,7 @@ class AppData {
                 return;
             }
         });
+
         // Убираем дополнительные поля ввода в доходах
         incomeItems = document.getElementsByClassName("income-items");
         Array.from(incomeItems).forEach((item) => {

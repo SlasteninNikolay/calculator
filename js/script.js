@@ -73,6 +73,10 @@ class AppData {
         this.showResult();
     }
     reset() {
+        countButton.removeEventListener("mouseover", this.percentBlock);
+        depositPercent.removeEventListener("input", this.percentUnblock);
+        depositCheck.checked = false;
+        this.depositHandler();
         // разблокировываем инпуты
         inputDataAll.forEach((item) => {
             item.disabled = false;
@@ -267,22 +271,18 @@ class AppData {
     }
     percentBlock() {
         if (depositCheck.checked) {
-            if (
-                depositPercent.value > 100 ||
-                depositPercent.value < 0 ||
-                depositPercent.value === "" ||
-                isNaN(depositPercent.value)
-            ) {
+            if (!AppData.isNumber(depositPercent.value)) {
                 alert("Введите корректное значение в поле проценты");
-                countButton.disabled = true;
+            }
+            if (depositPercent.value > 100 || depositPercent.value < 0) {
+                alert("Введите корректное значение в поле проценты");
+            }
+            if (!AppData.isNumber(depositAmount.value)) {
+                alert("Введите сумму вашего депозита");
             }
         }
     }
-    percentUnblock() {
-        if (depositPercent.value !== "") {
-            countButton.disabled = false;
-        }
-    }
+
     countButtonUnblock() {
         if (salaryAmount.value !== "") {
             countButton.disabled = false;
@@ -300,6 +300,7 @@ class AppData {
         } else {
             depositBank.style.display = "none";
             depositAmount.style.display = "none";
+            depositPercent.style.display = "none";
             depositBank.value = "";
             depositAmount.value = "";
             this.deposit = false;

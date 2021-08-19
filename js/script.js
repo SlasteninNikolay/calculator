@@ -242,12 +242,8 @@ class AppData {
 
     getInfoDepsit() {
         if (this.deposit) {
-            if (depositPercent.value > 100 || depositPercent.value <= 0) {
-                console.log("no");
-            } else {
-                this.percentDeposit = depositPercent.value;
-                this.moneyDeposit = depositAmount.value;
-            }
+            this.percentDeposit = depositPercent.value;
+            this.moneyDeposit = depositAmount.value;
         }
     }
 
@@ -269,7 +265,24 @@ class AppData {
             event.target.disabled = true;
         }
     }
-
+    percentBlock() {
+        if (depositCheck.checked) {
+            if (
+                depositPercent.value > 100 ||
+                depositPercent.value < 0 ||
+                depositPercent.value === "" ||
+                isNaN(depositPercent.value)
+            ) {
+                alert("Введите корректное значение в поле проценты");
+                countButton.disabled = true;
+            }
+        }
+    }
+    percentUnblock() {
+        if (depositPercent.value !== "") {
+            countButton.disabled = false;
+        }
+    }
     countButtonUnblock() {
         if (salaryAmount.value !== "") {
             countButton.disabled = false;
@@ -282,6 +295,8 @@ class AppData {
             depositAmount.style.display = "inline-block";
             this.deposit = true;
             depositBank.addEventListener("change", this.changePercent);
+            countButton.addEventListener("mouseover", this.percentBlock);
+            depositPercent.addEventListener("input", this.percentUnblock);
         } else {
             depositBank.style.display = "none";
             depositAmount.style.display = "none";

@@ -7,23 +7,13 @@ let addExpensesButton = document.getElementsByTagName("button")[1];
 let additionalIncomeItem = document.querySelectorAll(".additional_income-item");
 let budgetMonthValue = document.getElementsByClassName("budget_month-value")[0];
 let budgetDayValue = document.getElementsByClassName("budget_day-value")[0];
-let expensesMonthValue = document.getElementsByClassName(
-    "expenses_month-value"
-)[0];
-let additionalIncomeValue = document.getElementsByClassName(
-    "additional_income-value"
-)[0];
-let additionalExpensesValue = document.getElementsByClassName(
-    "additional_expenses-value"
-)[0];
-let incomePeriodValue = document.getElementsByClassName(
-    "income_period-value"
-)[0];
+let expensesMonthValue = document.getElementsByClassName("expenses_month-value")[0];
+let additionalIncomeValue = document.getElementsByClassName("additional_income-value")[0];
+let additionalExpensesValue = document.getElementsByClassName("additional_expenses-value")[0];
+let incomePeriodValue = document.getElementsByClassName("income_period-value")[0];
 let targetMonthValue = document.getElementsByClassName("target_month-value")[0];
 let expensesItems = document.querySelectorAll(".expenses-items");
-let additionalExpensesItem = document.querySelector(
-    ".additional_expenses-item"
-);
+let additionalExpensesItem = document.querySelector(".additional_expenses-item");
 let depositCheck = document.querySelector("#deposit-check");
 let targetAmount = document.querySelector(".target-amount");
 let periodSelect = document.querySelector(".period-select");
@@ -69,12 +59,13 @@ let appData = {
         // appData.getInfoDepsit();
     },
     addExpensesBlock: function () {
-        console.log(expensesItems.parentNode);
         let cloneExpensesItems = expensesItems[0].cloneNode(true);
-        expensesItems[0].parentNode.insertBefore(
-            cloneExpensesItems,
-            addExpensesButton
-        );
+        cloneExpensesItems.childNodes.forEach((e) => {
+            if (e.tagName === "INPUT") {
+                e.value = "";
+            }
+        });
+        expensesItems[0].parentNode.insertBefore(cloneExpensesItems, addExpensesButton);
         expensesItems = document.querySelectorAll(".expenses-items");
         if (expensesItems.length === 3) {
             addExpensesButton.style.display = "none";
@@ -82,10 +73,13 @@ let appData = {
     },
     addIncomeBlock: function () {
         let cloneIncomeItems = incomeItems[0].cloneNode(true);
-        incomeItems[0].parentNode.insertBefore(
-            cloneIncomeItems,
-            addIncomeButton
-        );
+        cloneIncomeItems.childNodes.forEach((e) => {
+            if (e.tagName === "INPUT") {
+                e.value = "";
+            }
+        });
+
+        incomeItems[0].parentNode.insertBefore(cloneIncomeItems, addIncomeButton);
         incomeItems = document.querySelectorAll(".income-items");
         if (incomeItems.length === 3) {
             addIncomeButton.style.display = "none";
@@ -153,8 +147,7 @@ let appData = {
         appData.expensesMonth = sum;
     },
     getBudget: function () {
-        appData.budgetMonth =
-            appData.budget + appData.incomeMonth - appData.expensesMonth;
+        appData.budgetMonth = appData.budget + appData.incomeMonth - appData.expensesMonth;
         appData.budgetDay = Math.floor(appData.budgetMonth / 30);
     },
     getTargetMonth: function () {
@@ -199,6 +192,15 @@ let appData = {
             countButton.disabled = false;
         }
     },
+    checkInputs: function (e) {
+        const target = e.target;
+        if (target.placeholder === "Наименование") {
+            target.value = target.value.replace(/[^а-яё\s\.,:!;"'\?]/gi, "");
+        }
+        if (target.placeholder === "Сумма") {
+            target.value = target.value.replace(/[\D]/gi, "");
+        }
+    },
 };
 countButton.addEventListener("mouseover", appData.countButtonBlock);
 salaryAmount.addEventListener("input", appData.countButtonUnblock);
@@ -206,3 +208,4 @@ countButton.addEventListener("click", appData.start);
 addExpensesButton.addEventListener("click", appData.addExpensesBlock);
 addIncomeButton.addEventListener("click", appData.addIncomeBlock);
 periodSelect.addEventListener("input", appData.setPeriod);
+document.body.addEventListener("input", appData.checkInputs);
